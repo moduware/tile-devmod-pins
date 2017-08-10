@@ -1,0 +1,19 @@
+@import 'bourbon';
+@import 'variables';
+@import 'global';
+
+// MIXINS
+
+
+// PARTIALS
+
+
+// TOOLS
+@import 'tool/fixed-header';
+@import 'tool/console';
+
+// SCREENS
+@import 'screen/main';
+
+@include nxp-console($position: bottom, $height: 15%);
+@include nxp-fixed-header;

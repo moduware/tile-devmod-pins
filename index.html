@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DevMod Pins</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="manifest" href="manifest.json">
+    <!-- for remote debug -->
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="fonts/fonts.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+
+    <!-- nexpaq libs -->
+    <script type="text/javascript" src="js/NexpaqHeader.js"></script>
+
+    <script type="text/javascript" src="driver.js"></script>
+
+    <script type="text/javascript" src="js/ArrayEqualsPolyfill.js"></script>
+    <script type="text/javascript" src="js/types/pinType.js"></script>
+    <script type="text/javascript" src="js/types/moduleType.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
+  </head>
+  <body data-module="msp"> <!-- max & msp -->
+    <div id="wrapper" class="wrapper" data-color="black">
+      <h2>Types</h2>
+      <ul class="types-list">
+        <li class="bg-magenta">GPIO I</li>
+        <li class="bg-green">GPIO O</li>
+        <li class="bg-blue">ADC</li>
+        <li class="bg-yellow">PWM</li>
+      </ul>
+      <h2>Pins</h2>
+      <div class="pages" id="pages" data-page="1"></div>
+      <button class="page-switcher" id="prev-page">Prev</button>
+      <button class="page-switcher" id="next-page">Next</button>
+    </div>
+  </body>
+</html>

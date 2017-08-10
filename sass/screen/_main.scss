@@ -1,0 +1,178 @@
+.wrapper {
+  box-sizing: border-box;
+  background-color: white;
+  padding: 50px 2.5vw 0;
+  color: #606060;
+
+  h2 {
+    text-align: center;
+    font-size: 1.2em;
+    margin: 0.3em 0;
+  }
+}
+
+.types-list {
+  @include display(flex);
+  @include align-content(stretch);
+  border-radius: 6px;
+  overflow: hidden;
+  line-height: 2em;
+  font-family: $light-font;
+
+  li {
+    @include flex-grow(1);
+    width: 25%;
+    text-align: center;
+  }
+}
+.bg-magenta {
+  background-color: #EE3696;
+  color: white;
+}
+.bg-green {
+  background-color: #40CF9A;
+  color: white;
+}
+.bg-blue {
+  background-color: #5999DE;
+  color: white;
+}
+.bg-yellow {
+  background-color: #FFC657;
+  color: white;
+}
+.bg-white {
+  background-color: white;
+  color: inherit;
+}
+
+.pages {
+  @include display(flex);
+  width: 100%;
+  @include transform(translateX(0%));
+  transition: transform 0.6s cubic-bezier(.87,-.41,.19,1.44);
+
+  // &.next-page {
+  //   @include transform(translateX(-50%));
+  // }
+}
+.page {
+  width: 50%;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+
+  li {
+    box-sizing: border-box;
+    @include display(flex);
+    @include align-content(stretch);
+    line-height: 7.3vh;
+    height: 7.3vh;
+    text-align: center;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid currentColor;
+    }
+  }
+  .number,
+  .controller {
+    @include flex-grow(1);
+    width: 25%;
+    overflow: hidden;
+  }
+  .name {
+    @include flex-grow(1);
+    font-family: $light-font;
+    width: 50%;
+  }
+  .output-lowhigh-toggler,
+  .output-percent {
+    width: 100%;
+    line-height: 7.3vh;
+    height: 7.3vh;
+    border: 0;
+    padding: 0;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 0 6px 6px 0;
+  }
+  .controller > * {
+    display: none;
+  }
+  li[data-type="0"] .name {
+    &::before { content: 'GPIO I'; }
+    @extend .bg-magenta;
+  }
+  li[data-type="1"] .name {
+    &::before { content: 'GPIO O'; }
+    @extend .bg-green;
+  }
+  li[data-type="2"] .name {
+    &::before { content: 'ADC'; }
+    @extend .bg-blue;
+  }
+  li[data-type="3"] .name {
+    &::before { content: 'PWM'; }
+    @extend .bg-yellow;
+  }
+  body:not([data-module="max"]) & li[id="pin-3"] .name {
+    &::before { content: 'static'; }
+    @extend .bg-white;
+  }
+  body:not([data-module="max"]) & li[id="pin-3"] .value {
+    &::before { color: #606060; font-size: 16px; content: '0'; }
+    color: transparent;
+    font-size: 0;
+  }
+
+  li[data-type="0"],
+  li[data-type="2"] {
+    .controller > .value {
+      display: block;
+    }
+  }
+  li[data-type="1"] {
+    .controller > .output-lowhigh-toggler {
+      display: block;
+    }
+  }
+  li[data-type="3"] {
+    .controller > .output-percent {
+      display: block;
+    }
+  }
+}
+
+body[data-module="max"] #pin-25 ~ li {
+  opacity: 0;
+}
+
+body[data-module="max"] #pin-17 .name {
+  background-color: red;
+  &::before {
+    content: 'RED';
+  }
+}
+body[data-module="max"] #pin-18 .name {
+  background-color: green;
+  &::before {
+    content: 'GREEN';
+  }
+}
+body[data-module="max"] #pin-19 .name {
+  background-color: blue;
+  &::before {
+    content: 'BLUE';
+  }
+}
+
+
+.page-switcher {
+  @extend .bg-magenta;
+  // @include position(fixed, null null 10px 2.5vw);
+  // width: 95vw;
+  display: inline-block;
+  width: 49.3%; //100%;
+  margin-top: 15px;
+  line-height: 2em;
+  border-radius: 6px;
+}
