@@ -235,30 +235,30 @@ function dataReceived(receivedData) {
 				type = parseInt($el.dataset.type);
 		if(i == 0 || i == 2 || i == 4 || (currentModuleType == 'max' && i == 6)) {
 			if(type == pinType.GPIOI) {
-				var value = receivedData['element' + (i+1)];
+				var value = receivedData[i + 1];
 
 			} else if(type == pinType.ADC) {
-				var v1 = receivedData['element' + i];
-				var v2 = receivedData['element' + (i+1)];
+				var v1 = receivedData[i];
+				var v2 = receivedData[i + 1];
 				var value = ((v1 + v2) * 3.3) / 1023;
 				//console.log(i, v1, v2, value);
 				value = value.toFixed(2);
 
 			} else if(type == pinType.PWM) {
-				var value = receivedData['element' + (i + 1)];
+				var value = receivedData[i + 1];
 				// GPIO O
 			} else {
 				var value = 0;
 			}
 			i++;
 		} else {
-			value = receivedData['element' + i];
+			value = receivedData[i];
 		}
 		data[j] = value;
 		j++;
 	}
 	if(!last_data.equals(data)) {
-		var d = []; for(var i=0; i<data_elements; i++) d.push(receivedData['element'+i]);
+		var d = []; for(var i=0; i<data_elements; i++) d.push(receivedData[i]);
 		console.log("Received original:", d);
 		console.log("Received result:", data);
 
@@ -315,6 +315,14 @@ document.addEventListener('NexpaqAPIReady', function() {
 	var jsonDriver = JSON.stringify(driver);
 
 	Nexpaq.API.Driver.LoadFromJson(Nexpaq.Arguments[0], jsonDriver, moduleDriverLoadedHandler);
+	Nexpaq.API.Module.addEventListener('RawDataReceived', function(messageFromModule) {
+		// Ignoring data from other modules
+		if(messageFromModule.moduleUuid != Nexpaq.Arguments[0]) return;
+		// We are interested only in standard data stream
+		if(messageFromModule.dataSource != '2800') return;
+		// Passing data to handler
+		rawModuleDataHandler(messageFromModule.data);
+	});
 
 	// We also will want to turn LED of when user leaves our tile, so lets track this event
 	Nexpaq.API.addEventListener('BeforeExit', beforeExitActions);
@@ -326,6 +334,18 @@ document.addEventListener('NexpaqAPIReady', function() {
  */
 function moduleDriverLoadedHandler() {
 	console.log('Custom module driver loaded');
+}
+
+/**
+ * Works with raw data from module
+ * 
+ * @param {any} data 
+ */
+function rawModuleDataHandler(data) {
+	// Raw data, received as Base64 encoded string, we need decode it into byte array
+	var decodedData = Uint8Array.from(atob(data), c => c.charCodeAt(0));
+	// Passing to data handler
+	dataReceived(decodedData);
 }
 
 /**
