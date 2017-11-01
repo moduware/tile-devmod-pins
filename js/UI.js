@@ -65,7 +65,8 @@ function generatePins() {
           </select> \
           <input class="output-percent" type="number" name="precent" value="0" min="0" max="100" step="1"> \
         </div>';
-      list_el.children[1].addEventListener('click', pinClickHandler);
+      list_el.addEventListener('click', pinClickHandler);
+      list_el.children[1].addEventListener('click', pinTypeClickHandler);
       list_el.getElementsByClassName('output-lowhigh-toggler')[0].addEventListener('click', lowHighToggler);
       list_el.getElementsByClassName('output-percent')[0].addEventListener('change', percentChangeHandler);
       $list.insertBefore(list_el, null);
@@ -133,6 +134,30 @@ function percentChangeHandler(e) {
 	if(value > 100) value = 100;
 	this.value = value;
 
+  // If percent changed we need send updated configuration
+  var $pin = this.parentNode.parentNode;
+  var data = getPinData($pin);
+
+  //console.log(data.pinNumber, data.pinType, data.value);
+  makeUpdateConfiguration(data.pinNumber, data.pinType, data.value); 
+}
+
+function pinTypeClickHandler(e) {
+  var $pin = this.parentNode;
+	if($pin.id == 'pin-3') return;
+	var pinNumber = parseInt($pin.dataset.id);
+  var pinType = parseInt($pin.dataset.type);
+
+  // changing pin type to next one
+  pinType++;
+	if(pinType == 2 && pinNumber > 2) {
+        pinType++;
+	}
+	if(pinType == 3 && (pinNumber < 4 || pinNumber > 5)) {
+		pinType++;
+	}
+	if(pinType > 3) pinType = 0;
+	$pin.dataset.type = pinType;
 }
 
 /**
@@ -141,20 +166,42 @@ function percentChangeHandler(e) {
  * Call makeUpdateConfiguration fucntion to create the pin update array  
  */
 function pinClickHandler(e) {
-	var $pin = this.parentNode;
+	var $pin = this;
 	if($pin.id == 'pin-3') return;
-	var id = parseInt($pin.dataset.id);
-    var type = parseInt($pin.dataset.type);
-    type++;
-	if(type == 2 && id > 2) {
-        type++;
-	}
-	if(type == 3 && (id < 4 || id > 5)) {
-		type++;
-	}
-	if(type > 3) type = 0;
-	$pin.dataset.type = type;
+	var data = getPinData($pin);
 
-  // Here we sending pin data to module
-	makeUpdateConfiguration(id, type);   
+  //console.log(data.pinNumber, data.pinType, data.value);
+  makeUpdateConfiguration(data.pinNumber, data.pinType, data.value); 
+}
+
+function getPinData($pin) {
+	var pinNumber = parseInt($pin.dataset.id);
+  var pinType = parseInt($pin.dataset.type);
+
+  // getting value of pin
+  var value = getPinValue($pin, pinType);
+
+  return {
+    pinNumber: pinNumber,
+    pinType: pinType,
+    value: value
+  };
+}
+
+/**
+ * Get value of the passed pin DOM element
+ * 
+ * @param {DOMElement} $pin 
+ * @returns HIGH\LOW\0-100
+ */
+function getPinValue($pin, pinType) {
+  var value = 0;
+  if(pinType == PIN_TYPE.GPIO_OUTPUT) {
+    var controller = $pin.getElementsByClassName('output-lowhigh-toggler')[0];
+    var value = controller.dataset.value;
+  } else if(pinType == PIN_TYPE.PWM) {
+    var controller = $pin.getElementsByClassName('output-percent')[0];
+    var value = parseInt(controller.value);
+  }
+  return value;
 }

@@ -67,17 +67,38 @@ function dataHandle(data) {
 function renderPinData(pinUpdate) {
 	var pinNumber = pinUpdate[0];
 	var pinType = pinUpdate[1];
-	var value;
-	if(pinType == PIN_TYPE.GPIO_INPUT) {
-		value = pinUpdate[2] == 0 ? 'LOW':'HIGH';
-	} else if(pinType == PIN_TYPE.ADC) {
-		var v1 = pinUpdate[2];
-		var v2 = pinUpdate[3];
-		value = v1 * 256 + v2;//((v1 + v2) * 3.3) / 1023;
-	}
+	var value = parsePinValue(pinType, pinUpdate[2], pinUpdate[3]);
 	
-	// TODO: apply to UI
-	console.log(pinNumber, pinType, value);
+	var $pin = document.getElementById('pin-' + pinNumber);
+	$pin.dataset.type = pinType;
+	if(pinType == PIN_TYPE.GPIO_INPUT) {
+		var controller = $pin.getElementsByClassName('value')[0];
+		controller.textContent = value;
+	} else if(pinType == PIN_TYPE.ADC) {
+		var controller = $pin.getElementsByClassName('value')[0];
+		controller.textContent = value + ' V';
+	}
+}
+
+/**
+ * Parsing pin value out of raw bytes
+ * 
+ * @param {Integer} pinType 
+ * @param {Byte} rawValue1 
+ * @param {Byte} rawValue2 
+ * @returns 
+ */
+function parsePinValue(pinType, rawValue1, rawValue2) {
+	var value = 0;
+	if(pinType == PIN_TYPE.GPIO_INPUT) {
+		value = rawValue1 == 0 ? 'LOW':'HIGH';
+	} else if(pinType == PIN_TYPE.ADC) {
+		var v1 = rawValue1;
+		var v2 = rawValue2;
+		value = v1 * 256 + v2;
+	}
+
+	return value;
 }
 
 // Doing our actions when nexpaq API is ready
