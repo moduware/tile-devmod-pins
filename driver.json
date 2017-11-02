@@ -1,4 +1,4 @@
-var driver = {
+{
     "type": "nexpaq.module.devmod",
     "version": "1.0.0",
     "commands": [
@@ -9,4 +9,4 @@ var driver = {
             "command": "2700"
         }
     ]
-};
+}
