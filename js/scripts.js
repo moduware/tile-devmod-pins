@@ -40,7 +40,8 @@ function makePinConfiguration(pinNumber, pinType, value) {
  * @param {array} configuration bytes with configuration
  */
 function sendPinConfiguration(configuration) {
-	Nexpaq.API.Module.SendCommand(Nexpaq.Arguments[0], 'SetPinModes', configuration);
+	//console.log('SetPinConfig', configuration);
+	Nexpaq.API.Module.SendCommand(Nexpaq.Arguments[0], 'SetPinConfig', configuration);
 }
 
 /* 
@@ -103,9 +104,6 @@ function parsePinValue(pinType, rawValue1, rawValue2) {
 
 // Doing our actions when nexpaq API is ready
 document.addEventListener('NexpaqAPIReady', function() {
-	var jsonDriver = JSON.stringify(driver);
-    
-	Nexpaq.API.Driver.LoadFromJson(Nexpaq.Arguments[0], jsonDriver, moduleDriverLoadedHandler);
 	Nexpaq.API.Module.addEventListener('RawDataReceived', function(messageFromModule) {
 		// Ignoring data from other modules
 		if(messageFromModule.moduleUuid != Nexpaq.Arguments[0]) return;
@@ -114,9 +112,6 @@ document.addEventListener('NexpaqAPIReady', function() {
 		// Passing data to handler
 		rawModuleDataHandler(messageFromModule.data);
 	});
-
-	// We also will want to turn LED of when user leaves our tile, so lets track this event
-	Nexpaq.API.addEventListener('BeforeExit', beforeExitActions);
 });
 
 /**
@@ -128,24 +123,6 @@ function rawModuleDataHandler(data) {
 	// Raw data, received as Base64 encoded string, we need decode it into byte array
 	var decodedData = Uint8Array.from(atob(data), c => c.charCodeAt(0));
 	// Passing to data handler
+	//console.log('Received data', decodedData);
 	dataHandle(decodedData);
 }
-
-/**
- * Handles successful module driver loaded event
- * 
- */
-function moduleDriverLoadedHandler() {
-	console.log('Custom module driver loaded');
-}
-
-/**
- * Actions to perform before exiting tile
- * 
- */
-
-function beforeExitActions() {
-	// restoring default module driver
-	Nexpaq.API.Driver.RestoreDefault(Nexpaq.Arguments[0]);
-}
-
