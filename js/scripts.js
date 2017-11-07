@@ -96,7 +96,7 @@ function parsePinValue(pinType, rawValue1, rawValue2) {
 	} else if(pinType == PIN_TYPE.ADC) {
 		var v1 = rawValue1;
 		var v2 = rawValue2;
-		value = v1 * 256 + v2;
+		value = (((v1 * 256 + v2)/1023)*3.3).toFixed(2);
 	}
 
 	return value;
