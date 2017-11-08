@@ -1,4 +1,5 @@
-# tile-devmod-pins
+# DevMod pins tile
+
 DevMod pin tile can be used in different modes based on the pin number and pin type selected as below:
 - GPIO I        
 - GPIO O          
@@ -19,6 +20,10 @@ In PWM mode the pin number 4-5 may act as PWM(Pulse Width Modulation) that can c
 
 # DevMod pin tile snapshot
 ![snapshot]
+
+
+## Useful links:
+- [WebView tile template and TODO: How webview tile works][webview-template]
 
 [Live Preview][preview]
 
