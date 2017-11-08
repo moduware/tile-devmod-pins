@@ -34,9 +34,20 @@ In PWM mode the pin number 4-5 may act as PWM(Pulse Width Modulation) that can c
   - [Unstable developer's version][unstableapp] (more features)
   - [Stable user's version][stableapp] (more reliable)
 
-## DevMod pin tile snapshot
+## DevMod pin tile webview
 ![snapshot]
-
+## Build commands for git bash
+```bash
+# install dependencies
+npm install
+# prepocess styles
+gulp styles
+# collect build files (dev mode compatible)
+gulp build
+# archive files for release
+gulp zip
+```
+As result you will get tile.zip file in root directory containing latest tile package ready for publishing.
 
 ## Useful links:
 - [WebView tile template and TODO: How webview tile works][webview-template]
