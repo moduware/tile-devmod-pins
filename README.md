@@ -17,8 +17,10 @@ In ADC mode the pin number 0-2 may act as an ADC(analog to digital convertor) th
 ## PWM
 In PWM mode the pin number 4-5 may act as PWM(Pulse Width Modulation) that can communicate PWM values from tile to the firmware. these values can be varied between 0-100% duty cycle of the clock available.PWM values sent can be useful to drive different elecrical circuits and devices like servo motor, LEDs etc.
 
-
+# DevMod pin tile snapshot
+![snapshot]
 
 [Live Preview][preview]
 
 [preview]: https://material.io/resizer/#device=handset&url=https%3A%2F%2Fnexpaq.github.io%2Ftile-devmod-pins%2F&width=360
+[snapshot]:https://github.com/moduware/tile-devmod-pins/blob/updates/devmod%20pins%20tile/2017-11-08-12-58-54.png
