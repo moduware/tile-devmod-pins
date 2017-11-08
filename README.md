@@ -15,23 +15,9 @@ In GPIO O mode pin numbers 0-15 may act as an output that can communicate digita
 In ADC mode the pin number 0-2 may act as an ADC(analog to digital convertor) that can accept the analog voltage values from any analog electrical device like potentiometer and show these analog voltage values in tile(Here the maximum voltage will be 3.3V as msp module is operating at 3.3V only).
 
 ## PWM
-In PWM mode the pin number 4-5 may act as PWM(Pulse Width Modulation) that can communicate PWM values from tile to the firmware.
+In PWM mode the pin number 4-5 may act as PWM(Pulse Width Modulation) that can communicate PWM values from tile to the firmware. these values can be varied between 0-100% duty cycle of the clock available.PWM values sent can be useful to drive different elecrical circuits and devices like servo motor, LEDs etc.
 
-Tile to control pins on developer's module (msp and max are supported)
 
-To build from scratch run these commands:
-```bash
-# install dependencies
-npm install
-# prepocess styles
-gulp styles
-# collect build files (dev mode compatible)
-gulp build
-# archive files for release
-gulp zip
-```
-
-As result you will get tile.zip file in root directory containing latest tile package ready for publishing.
 
 [Live Preview][preview]
 
