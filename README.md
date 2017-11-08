@@ -34,11 +34,11 @@ In PWM mode the pin number 4-5 may act as PWM(Pulse Width Modulation) that can c
   - [Unstable developer's version][unstableapp] (more features)
   - [Stable user's version][stableapp] (more reliable)
 
-# DevMod pin tile snapshot
+## DevMod pin tile snapshot
 ![snapshot]
 
 
-# Useful links:
+## Useful links:
 - [WebView tile template and TODO: How webview tile works][webview-template]
 
 [snapshot]:https://github.com/moduware/tile-devmod-pins/blob/updates/devmod%20pins%20tile/2017-11-08-12-58-54.png
