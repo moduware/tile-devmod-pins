@@ -82,12 +82,11 @@ function renderPinData(pinUpdate) {
 }
 
 /**
- * Parsing pin value out of raw bytes
- * 
+ * Parsing pin value out of raw bytes where recieved raw data bytes sent from potentiometer(sensor) are converted into analog voltage values which are human readable and represent actual analog information on transmitter end.
  * @param {Integer} pinType 
  * @param {Byte} rawValue1 
  * @param {Byte} rawValue2 
- * @returns 
+ * @returns{decimal} value 
  */
 function parsePinValue(pinType, rawValue1, rawValue2) {
 	var value = 0;
@@ -96,7 +95,8 @@ function parsePinValue(pinType, rawValue1, rawValue2) {
 	} else if(pinType == PIN_TYPE.ADC) {
 		var v1 = rawValue1;
 		var v2 = rawValue2;
-		value = (((v1 * 256 + v2)/1023)*3.3).toFixed(2);
+        // digital to analog voltage conversion
+		value = (((v1 * 256 + v2)/1023)*3.3).toFixed(2); 
 	}
 
 	return value;
